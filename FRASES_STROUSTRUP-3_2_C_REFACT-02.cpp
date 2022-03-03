@@ -18,15 +18,10 @@ void error(string message, string message2 = "")// se ejecuta solo si detecta er
 ifstream openFile(string path)
 {
     ifstream in; // declara el tipo de archivo lectura
-    in.open(path);// abrir el archivo
+    in.open(QuotesOfBjarne.txt);// abrir el archivo
     bool isCorruptFile = (!in.is_open() || !in.good()); // comprobamos si el archivo esta abierto y el archivo no esta corrupto
     if (isCorruptFile) error("Error opening file");// verifico si hay error, si hay llamo a la funcion void error
     return in; //retorna archivo abierto
-}
-
-void closeFile(ifstream& file)
-{
-    if (file.is_open()) file.close();  
 }
 
 int countWords(string sentence) // pasa la oracion sentence para examinarla y contar las palabras
@@ -60,7 +55,7 @@ void showWordsOf(ifstream& file)// paso por referencia el lugar de memoria con e
         totalWords += wordsPerSentence; //totalWords = totalWords + wordsPerSentence;
         sentecesNumber++;
     }
-
+    file.close();
     cout << "Cantidad total de palabras " << totalWords << endl;
     float averageOfWords = float(totalWords) / float(sentecesNumber);
     cout << "Promedio de palabras por línea " << averageOfWords << endl;
@@ -68,15 +63,8 @@ void showWordsOf(ifstream& file)// paso por referencia el lugar de memoria con e
 
 int main()
 {
-    /*
-        IMPORTANTE PRESTAR ATENCIÓN AL PASO POR REFERENCIA
-        EN LAS FUNCIONES showQuotesOf y closeFile
-        NO SE PUEDE INCIALIZAR UN OBJETO ifstream CON OTRO
-        Y LUEGO PASARLO POR VALOR PORQUE ifstream TIENE
-        UN CONSTRUCTOR COPIA ELIMINADO, POR ESO NO SE PUEDE COPIAR
-    */
-    ifstream textFile = openFile("QuotesOfBjarne.txt");  // abro el archivo
+      
     showWordsOf(textFile);// muestra palabras de archivo
-    closeFile(textFile); // cerrar el archivo
+   
     return 0;
 }
